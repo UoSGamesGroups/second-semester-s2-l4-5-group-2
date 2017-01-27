@@ -1,4 +1,12 @@
-# Group Project
+# S2 L4/5 Group Project 2
+
+**Designer Level 5 - Jordan Marks**
+
+**Programmer Level 4 - Thomas Gibbs**
+
+**Designer Level 4 - Alice Baker**
+
+**Programmer Level 4 - Daniel Pokladek**
 
 This is the repository for your group project, keep it neat and well organised with sensible folder structures.
 
