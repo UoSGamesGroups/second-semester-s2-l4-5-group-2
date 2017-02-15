@@ -4,21 +4,36 @@ using UnityEngine;
 
 public class PlanetaryGravity : MonoBehaviour {
 
-    public Transform center;
-    public Vector3 axis = Vector3.up;
-    public float radius;
-    public float radiusSpeed = .5f;
-    public float rotationsSpeed = 80f; 
+    public Transform targetAsteroid;
+    public float orbitRadius;
+    public float orbitSpeed;
+    public float radiusSpeed;
+
+    private Vector3 orbitAxis = new Vector3(0, 0, 1);
+
+    AsteroidManager asteroidManager;
+
+    void Awake() {
+        asteroidManager = GetComponent<AsteroidManager>();
+
+        targetAsteroid = asteroidManager.targetAsteroid;
+        orbitRadius = asteroidManager.orbitRadius;
+        orbitSpeed = asteroidManager.orbitSpeed;
+    }
 
 	void Start () {
-        transform.position = (transform.position - center.position).normalized * radius + center.position;
-
-        //radius = Random.Range(3, 8);
+        transform.position = (transform.position - targetAsteroid.position).normalized * orbitRadius + targetAsteroid.position;
 	}
 	
 	void Update () {
-        transform.RotateAround(center.position, axis, rotationsSpeed * Time.deltaTime);
-        Vector3 desiredPosition = (transform.position - center.position).normalized * radius + center.position;
-        transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+        if (asteroidManager.targetAsteroid != null)
+        {
+            transform.RotateAround(targetAsteroid.position, orbitAxis, orbitSpeed * Time.deltaTime);
+            Vector3 desiredPosition = (transform.position - targetAsteroid.position).normalized * orbitRadius + targetAsteroid.position;
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+        }
+        else {
+            Debug.Log("No targetAsteroid in: " + gameObject.name);
+        }
 	}
 }

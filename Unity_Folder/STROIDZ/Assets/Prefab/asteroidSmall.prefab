@@ -39,8 +39,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736870641705342}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.16
+  m_Radius: 0.5
 --- !u!96 &96314559243924350
 TrailRenderer:
   serializedVersion: 2
@@ -195,9 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5f4e64565223749a7e48a3c6f83045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 4
+  orbitRadius: 2.5
   orbitSpeed: 55
-  shootForce: 20
+  shootForce: 55
   isInOrbit: 0
   targetAsteroid: {fileID: 0}
   _targetPlanet: {fileID: 0}
@@ -214,11 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 0}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 4
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 0
+  orbitSpeed: 0
   radiusSpeed: 0.5
-  rotationsSpeed: 35
 --- !u!114 &114837923719870282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,7 +262,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 18c849e504e34e94ca17af741466c86d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 94d8719c521713e45aef6c12c63837b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

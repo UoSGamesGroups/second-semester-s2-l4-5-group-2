@@ -13,7 +13,7 @@ public class AsteroidManager : MonoBehaviour {
     [Header("Asteroid Variables")]
     public float orbitRadius = 2.5f;
     public float orbitSpeed = 45f;
-    public float shootForce = 20f;
+    public float shootForce = 55f;
 
     [Header("Gravity Settings")]
     public bool isInOrbit = false;
@@ -29,13 +29,6 @@ public class AsteroidManager : MonoBehaviour {
         orbitShoot = gameObject.GetComponent<OrbitShoot>();
         planetaryGravity = gameObject.GetComponent<PlanetaryGravity>();
 
-        if (planetaryGravity.center != null) {
-            targetAsteroid = planetaryGravity.center;
-        }
-        else {
-            // Search for the nearest planet.
-        }
-
         //Find the nearest planet first
         //Then assign the planet to the manager
         //Pass the planet to the gravity script
@@ -44,49 +37,41 @@ public class AsteroidManager : MonoBehaviour {
         // Debug <--
         isInOrbit = true; // == Set isInOrbit to true as hardcodin because we pass the planet in inspector.
         // -->
-
-        orbitShoot.multiplier = shootForce;
-        planetaryGravity.rotationsSpeed = orbitSpeed;
-        planetaryGravity.radius = orbitRadius;
-        planetaryGravity.center = targetAsteroid;
     }
+
+    void Start() {
+        UpdatePlanetaryGravity();
+        UpdateOrbitShoot();
+    } 
 
 	void Update () {
-        if (!isInOrbit)
-        {
-            planetaryGravity.enabled = false;
-        }
-        else {
-            planetaryGravity.enabled = true;
+        //if (!isInOrbit)
+        //{
+        //    planetaryGravity.enabled = false;
+        //}
+        //else {
+        //      planetaryGravity.enabled = true;
+        //}
+    }
+
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.gameObject.tag == "planet") {
+            Debug.Log(gameObject.name + " Says: " + "I'm in range of a planet: " + col.gameObject.name);
         }
     }
 
-    //void OnTriggerEnter2D ( Collider2D collision ) {
-        //if (collision.gameObject.tag == "planet") {
-            //isInOrbit = true;
+    public void UpdatePlanetaryGravity() {
+        planetaryGravity.targetAsteroid = targetAsteroid;
+        planetaryGravity.orbitRadius = orbitRadius;
+        planetaryGravity.orbitSpeed = orbitSpeed;
+    }
 
-            //float _orbitSpeed = collision.gameObject.GetComponent<HubManager>().orbitSpeed;
-            //float _orbitRange = collision.gameObject.GetComponent<HubManager>().orbitRange;
-
-            //_targetPlanet = collision.gameObject;
-
-            //SetValues(_orbitRange, _orbitSpeed);
-
-            //Debug.Log("Planet Inbound: " + collision.gameObject.name + " | Radius: " + _orbitRange + " | Speed: " + _orbitSpeed);
-        //}
-    //}
-
-    //void OnTriggerExit2D ( Collider2D collision ) {
-        //isInOrbit = false;
-    //}
-
-    //void SetValues (float _orbitRange, float _orbitSpeed) {
-        //orbitRadius = _orbitRange;
-        //orbitSpeed = _orbitSpeed;
-
-        //planetaryGravity.radius = _orbitRange;
-        //planetaryGravity.rotationsSpeed = _orbitSpeed;
-    //}
+    public void UpdateOrbitShoot() {
+        if (orbitShoot != null)
+        {
+            orbitShoot.shootForceMultiplier = shootForce;
+        }
+    }
 
     void OnBecameInvsible() {
         Destroy(gameObject);

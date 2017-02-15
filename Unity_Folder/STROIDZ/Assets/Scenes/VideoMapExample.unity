@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 60135634}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1192,7 +1192,7 @@ ParticleSystem:
   m_GameObject: {fileID: 922579443}
   serializedVersion: 5
   lengthInSec: 2.5
-  simulationSpeed: 1
+  speed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -4807,7 +4807,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1327464371}
   serializedVersion: 5
   lengthInSec: 2.5
-  simulationSpeed: 1
+  speed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -7868,7 +7868,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1469784413}
   serializedVersion: 5
   lengthInSec: 25
-  simulationSpeed: 1
+  speed: 1
   looping: 1
   prewarm: 1
   playOnAwake: 1

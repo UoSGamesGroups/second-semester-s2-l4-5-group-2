@@ -67,8 +67,8 @@ GameObject:
   - component: {fileID: 50925516626340420}
   - component: {fileID: 58280349741625838}
   - component: {fileID: 58272271586400444}
-  - component: {fileID: 114114199408924806}
   - component: {fileID: 250305936134181146}
+  - component: {fileID: 114860305649242720}
   m_Layer: 0
   m_Name: asteroidHub
   m_TagString: planet
@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1787860765521986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4339816086029186}
@@ -846,24 +846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 4924066951257936}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 2.5
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 0
+  orbitSpeed: 0
   radiusSpeed: 0.5
-  rotationsSpeed: 35
---- !u!114 &114114199408924806
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1787860765521986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 942ee9a5cc9e10c43bd6c8fb882e9c23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orbitRange: 2.5
-  orbitSpeed: 35
 --- !u!114 &114161731145593202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -888,11 +874,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 4924066951257936}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 2.5
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 0
+  orbitSpeed: 0
   radiusSpeed: 0.5
-  rotationsSpeed: 35
 --- !u!114 &114262538762976000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,11 +915,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 0}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 9
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 10
+  orbitSpeed: 15
   radiusSpeed: 0.15
-  rotationsSpeed: 2
 --- !u!114 &114494958346803696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -950,7 +934,7 @@ MonoBehaviour:
   orbitSpeed: 45
   shootForce: 20
   isInOrbit: 0
-  targetAsteroid: {fileID: 0}
+  targetAsteroid: {fileID: 4924066951257936}
   _targetPlanet: {fileID: 0}
   orbitShoot: {fileID: 0}
   planetaryGravity: {fileID: 0}
@@ -982,7 +966,7 @@ MonoBehaviour:
   orbitSpeed: 45
   shootForce: 20
   isInOrbit: 0
-  targetAsteroid: {fileID: 0}
+  targetAsteroid: {fileID: 4924066951257936}
   _targetPlanet: {fileID: 0}
   orbitShoot: {fileID: 0}
   planetaryGravity: {fileID: 0}
@@ -1001,7 +985,7 @@ MonoBehaviour:
   orbitSpeed: 45
   shootForce: 20
   isInOrbit: 0
-  targetAsteroid: {fileID: 0}
+  targetAsteroid: {fileID: 4924066951257936}
   _targetPlanet: {fileID: 0}
   orbitShoot: {fileID: 0}
   planetaryGravity: {fileID: 0}
@@ -1016,11 +1000,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 4924066951257936}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 2.5
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 0
+  orbitSpeed: 0
   radiusSpeed: 0.5
-  rotationsSpeed: 35
 --- !u!114 &114773496496695232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1035,6 +1018,25 @@ MonoBehaviour:
   orbitRadius: 2.5
   orbitSpeed: 45
   shootForce: 20
+  isInOrbit: 0
+  targetAsteroid: {fileID: 4924066951257936}
+  _targetPlanet: {fileID: 0}
+  orbitShoot: {fileID: 0}
+  planetaryGravity: {fileID: 0}
+--- !u!114 &114860305649242720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787860765521986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5f4e64565223749a7e48a3c6f83045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitRadius: 10
+  orbitSpeed: 15
+  shootForce: 0
   isInOrbit: 0
   targetAsteroid: {fileID: 0}
   _targetPlanet: {fileID: 0}
@@ -1051,11 +1053,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a337590c76140b343a1faa736f6a6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 4924066951257936}
-  axis: {x: 0, y: 0, z: 1}
-  radius: 2.5
+  targetAsteroid: {fileID: 0}
+  orbitRadius: 0
+  orbitSpeed: 0
   radiusSpeed: 0.5
-  rotationsSpeed: 35
 --- !u!212 &212216504669487758
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1242,7 +1243,7 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_ForceMagnitude: -50
+  m_ForceMagnitude: -120
   m_ForceVariation: 0
   m_DistanceScale: 2.5
   m_ForceSource: 1
