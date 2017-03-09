@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ASTEROID
   - planet
+  - RadVis
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - 
   - back
-  - 
-  - 
+  - Player1
+  - Player2
   - 
   - 
   - 

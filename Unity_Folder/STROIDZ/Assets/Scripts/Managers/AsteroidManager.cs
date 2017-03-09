@@ -11,6 +11,8 @@ public class AsteroidManager : MonoBehaviour {
     /// </summary>
 
     [Header("Asteroid Variables")]
+    public GameObject impactFX;
+    public float asteroidHealth = 1;
     public float orbitRadius = 2.5f;
     public float orbitSpeed = 45f;
     public float shootForce = 55f;
@@ -20,9 +22,22 @@ public class AsteroidManager : MonoBehaviour {
     public Transform targetAsteroid;
     public GameObject _targetPlanet;
 
-    //[HideInInspector]
+    [Header("Turn Settings")]
+    public string Owner;
+
+    public enum AsteroidOwner {
+        Player1,
+        Player2
+    }
+
+    public AsteroidOwner asteroidOwner = AsteroidOwner.Player1;
+
+    private float destroyDelay = 2;
+    private GameObject impactObject;
+
+    [HideInInspector]
     public OrbitShoot orbitShoot;
-    //[HideInInspector]
+    [HideInInspector]
     public PlanetaryGravity planetaryGravity;
 
     void Awake() {
@@ -37,6 +52,18 @@ public class AsteroidManager : MonoBehaviour {
         // Debug <--
         isInOrbit = true; // == Set isInOrbit to true as hardcodin because we pass the planet in inspector.
         // -->
+
+        switch (asteroidOwner) {
+            case AsteroidOwner.Player1:
+                Owner = "Player1";
+                gameObject.layer = 10;
+                break;
+
+            case AsteroidOwner.Player2:
+                Owner = "PLayer2";
+                gameObject.layer = 11;
+                break;
+        }
     }
 
     void Start() {
@@ -45,19 +72,31 @@ public class AsteroidManager : MonoBehaviour {
     } 
 
 	void Update () {
-        //if (!isInOrbit)
-        //{
-        //    planetaryGravity.enabled = false;
-        //}
-        //else {
-        //      planetaryGravity.enabled = true;
-        //}
+        switch (asteroidOwner) {
+            case AsteroidOwner.Player1:
+                Owner = "Player1";
+                break;
+
+            case AsteroidOwner.Player2:
+                Owner = "Player2";
+                break;
+        }
+
+        if (asteroidHealth <= 0)
+            Destroy(gameObject);
+
     }
 
     void OnTriggerEnter2D(Collider2D col) {
         if (col.gameObject.tag == "planet") {
             Debug.Log(gameObject.name + " Says: " + "I'm in range of a planet: " + col.gameObject.name);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll) {
+        StartCoroutine(DestroyEffect(destroyDelay));
+        impactObject = coll.gameObject;
+        Instantiate(impactFX, gameObject.transform.position, gameObject.transform.rotation);
     }
 
     public void UpdatePlanetaryGravity() {
@@ -67,13 +106,18 @@ public class AsteroidManager : MonoBehaviour {
     }
 
     public void UpdateOrbitShoot() {
-        if (orbitShoot != null)
-        {
+        if (orbitShoot != null) {
             orbitShoot.shootForceMultiplier = shootForce;
         }
     }
 
-    void OnBecameInvsible() {
-        Destroy(gameObject);
+    // IENUMRATORS
+    IEnumerator DestroyEffect(float _destoryDelay) {
+        yield return new WaitForSeconds(_destoryDelay);
+
+        if (impactObject != null)
+            Destroy(impactObject);
+
+        asteroidHealth -= .5f;
     }
 }

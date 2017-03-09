@@ -195,12 +195,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5f4e64565223749a7e48a3c6f83045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  impactFX: {fileID: 1668363251005696, guid: 4886846f532abd444b54a1d281b97afa, type: 2}
+  asteroidHealth: 1
   orbitRadius: 2.5
   orbitSpeed: 55
   shootForce: 55
   isInOrbit: 0
   targetAsteroid: {fileID: 0}
   _targetPlanet: {fileID: 0}
+  Owner: 
+  asteroidOwner: 0
   orbitShoot: {fileID: 0}
   planetaryGravity: {fileID: 114435958643123752}
 --- !u!114 &114435958643123752
@@ -229,8 +233,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b70d3c4671d2348a20fcdae5d1e094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 20
+  shootForceMultiplier: 0
+  RadVis: {fileID: 1414079648653226, guid: 3743d591c09595a4d9b97294b427c6cb, type: 2}
+  RadVisInstance: {fileID: 0}
   asteroidManager: {fileID: 0}
+  moveToAsteroid: 0
+  moveToGameSpace: 0
 --- !u!212 &212783780015876146
 SpriteRenderer:
   m_ObjectHideFlags: 1
