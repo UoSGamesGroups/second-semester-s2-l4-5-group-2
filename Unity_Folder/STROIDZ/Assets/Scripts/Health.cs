@@ -4,16 +4,15 @@ using System.Collections;
 
 public class Health : MonoBehaviour
 {
-    public int PlayerHealth = 6;
+    public int PlayerHealth = 5;
 
     private SpriteRenderer sr;
-    public Sprite PlanetFull;
     public Sprite Planet5;
     public Sprite Planet4;
     public Sprite Planet3;
     public Sprite Planet2;
     public Sprite Planet1;
-    public Sprite PlanetEmpty;
+    public Sprite Planet0;
 
 
     // Use this for initialization
@@ -25,12 +24,6 @@ public class Health : MonoBehaviour
 
     public void UpdateHealth(int Number)
     {
-        if (Number == 6)
-        {
-
-            sr.sprite = PlanetFull;
-        }
-
         if (Number == 5)
         {
 
@@ -60,10 +53,9 @@ public class Health : MonoBehaviour
             sr.sprite = Planet1;
         }
 
-
         if (Number == 0)
         {
-            sr.sprite = PlanetEmpty;
+            sr.sprite = Planet1;
         }
     }
 

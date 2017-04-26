@@ -1,39 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlanetaryGravity : MonoBehaviour {
 
+    /// <summary>
+    /// Planetary Gravity.
+    /// Created by: Tom Gibbs, Daniel Pokladek.
+    /// Modified by: Daniel Pokladek.
+    /// 
+    /// This script handles the gravity for asteroids,
+    /// at the current state it has the basic functionality.
+    /// Later it will search for planets to orbit around when lost.
+    /// 
+    /// </summary>
+
+    // Using the HideInInspector atribute, as all values are assigned
+    // through the AsteroidManager script.
+    [HideInInspector]
     public Transform targetAsteroid;
+    [HideInInspector]
     public float orbitRadius;
+    [HideInInspector]
     public float orbitSpeed;
+    [HideInInspector]
     public float radiusSpeed;
+    [HideInInspector]
+    public AsteroidManager asteroidManager;
 
     private Vector3 orbitAxis = new Vector3(0, 0, 1);
 
-    AsteroidManager asteroidManager;
-
-    void Awake() {
+    void Start ( ) {
+        // Grab the AsteroidManager script.
         asteroidManager = GetComponent<AsteroidManager>();
 
-        targetAsteroid = asteroidManager.targetAsteroid;
-        orbitRadius = asteroidManager.orbitRadius;
-        orbitSpeed = asteroidManager.orbitSpeed;
+        // Set the initial position for the asteroid.
+        transform.position = ( transform.position - targetAsteroid.position ).normalized * orbitRadius + targetAsteroid.position;
     }
 
-	void Start () {
-        transform.position = (transform.position - targetAsteroid.position).normalized * orbitRadius + targetAsteroid.position;
-	}
-	
-	void Update () {
-        if (asteroidManager.targetAsteroid != null)
-        {
+    void Update ( ) {
+        if (asteroidManager.targetAsteroid != null) {
+            // Create the Vector3 for desired position of the asteroid.
+            Vector3 desiredPosition = ( transform.position - targetAsteroid.position ).normalized * orbitRadius + targetAsteroid.position;
+
+            // Perform the script to mimick the orbiting of asteroid.
             transform.RotateAround(targetAsteroid.position, orbitAxis, orbitSpeed * Time.deltaTime);
-            Vector3 desiredPosition = (transform.position - targetAsteroid.position).normalized * orbitRadius + targetAsteroid.position;
             transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+            
         }
-        else {
-            Debug.Log("No targetAsteroid in: " + gameObject.name);
-        }
-	}
+    }
 }

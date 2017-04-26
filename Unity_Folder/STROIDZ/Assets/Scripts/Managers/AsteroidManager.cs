@@ -1,123 +1,136 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidManager : MonoBehaviour {
 
     /// <summary>
-    /// Notes for the Manager.
-    /// Make it so that when the planet is not in orbit anymore,
-    /// make sure it still has some force so that it does not suddenly stop.
+    /// Asteroid Manager.
+    /// Created by: Daniel Pokladek.
+    /// 
+    /// This script is the heart of the asteroid,
+    /// all variables are assigned through this script.
+    /// They will update other scripts when needed,
+    /// this makes it easier to manage everything.
+    /// 
     /// </summary>
-
+    
     [Header("Asteroid Variables")]
-    public GameObject impactFX;
-    public float asteroidHealth = 1;
-    public float orbitRadius = 2.5f;
-    public float orbitSpeed = 45f;
+    public float asteroidHealth = 1f;
+    public float orbitRadius = 6f;
+    public float orbitSpeed = 25f;
     public float shootForce = 55f;
+    public float damageAmount = .5f;
 
     [Header("Gravity Settings")]
-    public bool isInOrbit = false;
     public Transform targetAsteroid;
-    public GameObject _targetPlanet;
+    public GameObject targetPlanet;
 
-    [Header("Turn Settings")]
-    public string Owner;
+    [Header("Effects")]
+    public GameObject impactFX;
+    public GameObject radVisPrefab;
+    public float destroyDelay = .3f;   // Delay between collision and destruction of object.
 
-    public enum AsteroidOwner {
+    [HideInInspector]
+    public string asteroidOwner;
+    public OrbitShoot orbitShootScr;                // Reference to OrbitShoot script.
+    public PlanetaryGravity planetaryGravityScr;    // Reference to PlanetaryGravity script.
+
+    // Select who is the owner of asteroid. Uses drop down menu in editor.
+    public enum PlayerOwner {
         Player1,
         Player2
     }
 
-    public AsteroidOwner asteroidOwner = AsteroidOwner.Player1;
+    public PlayerOwner playerOwner = PlayerOwner.Player1;
 
-    private float destroyDelay = 2;
-    private GameObject impactObject;
+    // Start(), when this object is initialised.
+    void Start ( ) {
+        switch (playerOwner) {
+            case PlayerOwner.Player1:           // If planet belongs to Player1:
+                asteroidOwner = "Player1";      // Set the owner to Player1
+                gameObject.layer = 10;          // Set the layer of object to 10.
+                break;                          // Break the case statement.
 
-    [HideInInspector]
-    public OrbitShoot orbitShoot;
-    [HideInInspector]
-    public PlanetaryGravity planetaryGravity;
-
-    void Awake() {
-        orbitShoot = gameObject.GetComponent<OrbitShoot>();
-        planetaryGravity = gameObject.GetComponent<PlanetaryGravity>();
-
-        //Find the nearest planet first
-        //Then assign the planet to the manager
-        //Pass the planet to the gravity script
-        //Set isInOrbit to true.
-
-        // Debug <--
-        isInOrbit = true; // == Set isInOrbit to true as hardcodin because we pass the planet in inspector.
-        // -->
-
-        switch (asteroidOwner) {
-            case AsteroidOwner.Player1:
-                Owner = "Player1";
+            case PlayerOwner.Player2:
+                asteroidOwner = "Player2";
                 gameObject.layer = 10;
                 break;
-
-            case AsteroidOwner.Player2:
-                Owner = "PLayer2";
-                gameObject.layer = 11;
-                break;
         }
     }
 
-    void Start() {
-        UpdatePlanetaryGravity();
-        UpdateOrbitShoot();
-    } 
+    // Awake(), when all objects has been initialised.
+    void Awake ( ) {
+        orbitShootScr = GetComponent<OrbitShoot>();
+        planetaryGravityScr = GetComponent<PlanetaryGravity>();
 
-	void Update () {
-        switch (asteroidOwner) {
-            case AsteroidOwner.Player1:
-                Owner = "Player1";
-                break;
+        targetPlanet = targetAsteroid.gameObject;
 
-            case AsteroidOwner.Player2:
-                Owner = "Player2";
-                break;
-        }
+        UpdatePlanetaryGravity(orbitRadius, orbitSpeed, targetPlanet.transform);
+        UpdateOrbitShoot(shootForce);
 
+        // Set the references.
+        orbitShootScr.RadVis = radVisPrefab;
+    }
+
+    // Update(), refreshes every second.
+    void Update ( ) {
+
+        // If asteroid's health reaches 0, kill it.
         if (asteroidHealth <= 0)
+            Destroy(gameObject, destroyDelay);
+    }
+
+    #region Collisions and Triggers
+    void OnCollisionEnter2D ( Collision2D coll ) {
+        GameObject asteroidHit = coll.gameObject;
+
+        if (coll.gameObject.tag == "planet")
+            StartCoroutine(DestroyAsteroid(destroyDelay, asteroidHit));
+    }
+
+    void OnTriggerEnter2D ( Collider2D coll ) {
+        if (coll.gameObject.name == "outOfBounds")
             Destroy(gameObject);
 
+        if (coll.gameObject.tag == "galaxy")
+            coll.gameObject.GetComponent<PlayerGalaxyManager>().Damage(1f);
     }
+    #endregion
 
-    void OnTriggerEnter2D(Collider2D col) {
-        if (col.gameObject.tag == "planet") {
-            Debug.Log(gameObject.name + " Says: " + "I'm in range of a planet: " + col.gameObject.name);
+    #region Public Functions.
+    // Update the PlanetaryGravity script with given values.
+    public void UpdatePlanetaryGravity ( float _orbitRadius, float _orbitSpeed, Transform _targetAsteroid ) {
+        if (planetaryGravityScr != null) {
+            planetaryGravityScr.orbitRadius = _orbitRadius;
+            orbitRadius = _orbitRadius;
+
+            planetaryGravityScr.orbitSpeed = _orbitSpeed;
+            orbitSpeed = _orbitSpeed;
+
+            planetaryGravityScr.targetAsteroid = _targetAsteroid;
+            targetAsteroid = _targetAsteroid;
         }
     }
 
-    void OnCollisionEnter2D(Collision2D coll) {
-        StartCoroutine(DestroyEffect(destroyDelay));
-        impactObject = coll.gameObject;
+    // Update the OrbitShoot script with given values.
+    public void UpdateOrbitShoot ( float _shootForce ) {
+        if (orbitShootScr != null) {
+            orbitShootScr.shootForceMultiplier = _shootForce;
+            shootForce = _shootForce;
+        }
+    }
+    #endregion
+
+    #region IEnumerators
+    IEnumerator DestroyAsteroid ( float _destroyDelay, GameObject _asteroidHit ) {
         Instantiate(impactFX, gameObject.transform.position, gameObject.transform.rotation);
+
+        yield return new WaitForSeconds(_destroyDelay);
+
+        if (_asteroidHit != null)
+            _asteroidHit.GetComponent<AsteroidManager>().asteroidHealth -= damageAmount;
+
+        Destroy(gameObject);
     }
-
-    public void UpdatePlanetaryGravity() {
-        planetaryGravity.targetAsteroid = targetAsteroid;
-        planetaryGravity.orbitRadius = orbitRadius;
-        planetaryGravity.orbitSpeed = orbitSpeed;
-    }
-
-    public void UpdateOrbitShoot() {
-        if (orbitShoot != null) {
-            orbitShoot.shootForceMultiplier = shootForce;
-        }
-    }
-
-    // IENUMRATORS
-    IEnumerator DestroyEffect(float _destoryDelay) {
-        yield return new WaitForSeconds(_destoryDelay);
-
-        if (impactObject != null)
-            Destroy(impactObject);
-
-        asteroidHealth -= .5f;
-    }
+    #endregion
 }

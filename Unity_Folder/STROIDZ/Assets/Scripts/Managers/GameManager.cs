@@ -4,24 +4,25 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    public Image[] Arrows;
-    public float imageTimer = 1f;
+    /// <summary>
+    /// GameManager Script.
+    /// Created by Daniel Pokladek.
+    /// 
+    /// Game Manager script is the heart of the game,
+    /// it changes the state at which the game is and
+    /// determines which player's turn it is. It also
+    /// determines if the player is in the menus or in
+    /// the play area.
+    /// </summary>
+    /// 
 
-    public static GameManager gameManager = null;
+    public static GameManager gameManager = null;  // Static reference to the GameManager.
 
-    public enum GameState {
-        Menu,
-        Player1Turn,
-        Player2Turn,
-        Intermission,
-        EndRound
-    }
-
-    [Header("Turn Switch Things")]
-    public GameState gameState = GameState.Player1Turn;
+    [Header("Turn Settings")]
+    public GameState gameState = GameState.Player1; // Setting the GameState to Player1 turn, later preferably change to menu so game starts with menu.
+    public Text gameStateText;
+    public float intermissionLength = 5;
     public string TurnState = "Player1";
-    public float IntermissionLength = 2f;
-    public Text gameStateTxt;
 
     [Header("Camera Settings")]
     public Camera gameCamera;
@@ -37,9 +38,26 @@ public class GameManager : MonoBehaviour {
     public bool moveToP2 = false;
     public bool moveToInter = false;
 
-    private float time = 0;
+    // Animation time. RESET AFTER EACH ANIMATION!
+    private float animationTime = 0;
 
-    void Awake() {
+    // Animation variables.
+    private bool doAnimation;
+    private float cameraStartSize;
+    private float cameraEndSize;
+    private Vector3 cameraStartPos;
+    private Vector3 cameraEndPos;
+
+    // Enum to determine the state of the game.
+    public enum GameState {
+        Menu,
+        Player1,
+        Player2,
+        Intermission,
+        EndScreen
+    }
+
+    void Awake ( ) {
         if (gameManager == null)
             gameManager = this;
         else if (gameManager != this)
@@ -48,117 +66,96 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-	void Start () {
-        gameStateTxt.text = TurnState + " turn!";
-	}
-	
-	void Update () {
-        if (moveToInter) {
-            // Zoom camera in towards the asteroid.
-            float currentSize = Camera.main.orthographicSize;
-            float endSize = interCamSize;
+    void Start ( ) {
+        TurnState = "Player2";  // At the start change the previous player to P2 so game switches to intermission.
+        ChangeTurn();           // Change turn from P2 -> Intermission.
+    }
 
-            time += Time.deltaTime;
-            gameCamera.orthographicSize = Mathf.SmoothStep(currentSize, endSize, time);
+    void Update ( ) {
+        #region Animation Code
+        if (doAnimation) {
+            // Zoom the camera towards the asteroid.
+            float currentCameraSize = gameCamera.orthographicSize;
 
-            // Move camera towards the asteroid.
-            Vector3 startPos = Camera.main.transform.position;
-            Vector3 endPos = gameManager.InterPos;
-            gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
+            animationTime += Time.deltaTime;
+            gameCamera.orthographicSize = Mathf.SmoothStep(currentCameraSize, cameraEndSize, animationTime);
 
-            if (gameCamera.transform.position == endPos) {
-                moveToInter = false;
-                time = 0;
+            // Move camera towards teh center of selected asteroid.
+            Vector3 cameraStartPos = gameCamera.transform.position;
+
+            gameCamera.transform.position = Vector3.Lerp(cameraStartPos, new Vector3(cameraEndPos.x, cameraEndPos.y, -10), animationTime);
+
+            // If the size and position of the camera is the same as end ones, set animation to off.
+            if (gameCamera.orthographicSize == cameraEndSize && gameCamera.transform.position == cameraEndPos) {
+                doAnimation = false;
+                animationTime = 0;
             }
         }
+        #endregion
 
-        if (moveToP1) {
-            // Zoom camera in towards the asteroid.
-            float currentSize = Camera.main.orthographicSize;
-            float endSize = defCamSize;
+        switch (gameState) {
+            // Player1 state.
+            case GameState.Player1:
+                TurnState = "Player1";
+                gameStateText.text = "Player1 Turn!";
+                break;
+            
+            // Player2 state.
+            case GameState.Player2:
+                TurnState = "Player2";
+                gameStateText.text = "Player2 Turn!";
+                break;
 
-            time += Time.deltaTime;
-            gameCamera.orthographicSize = Mathf.SmoothStep(currentSize, endSize, time);
+            // Intermission state.
+            case GameState.Intermission:
+                TurnState = "Intermission";
+                gameStateText.text = "5 Sec Intermission";
+                break;
 
-            // Move camera towards the asteroid.
-            Vector3 startPos = Camera.main.transform.position;
-            Vector3 endPos = gameManager.player1Pos;
-            gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
-
-            if (gameCamera.transform.position == endPos) {
-                moveToP1 = false;
-                time = 0;
-            }
+            // Menu not yet implemented.
+            case GameState.Menu:
+                TurnState = "MenuState";
+                gameStateText.text = "";
+                break;
         }
+    }
 
-        if (moveToP2) {
-            // Zoom camera in towards the asteroid.
-            float currentSize = Camera.main.orthographicSize;
-            float endSize = defCamSize;
-
-            time += Time.deltaTime;
-            gameCamera.orthographicSize = Mathf.SmoothStep(currentSize, endSize, time);
-
-            // Move camera towards the asteroid.
-            Vector3 startPos = Camera.main.transform.position;
-            Vector3 endPos = gameManager.player2Pos;
-            gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
-
-            if (gameCamera.transform.position == endPos) {
-                moveToP2 = false;
-                time = 0;
-            }
-        }
-
-        foreach (Image i in Arrows) {
-            imageTimer -= .1f * Time.deltaTime;
-
-            i.fillAmount = imageTimer;
-        }
+    void MoveCamera ( Vector3 _cameraEndPos, float _cameraEndSize ) {
+        cameraEndPos = _cameraEndPos;
+        cameraEndSize = _cameraEndSize;
+        doAnimation = true;
     }
 
     public void ChangeTurn ( ) {
-        /* CHANGING TURN:
-         * Changing turn system will allow the game to change,
-         * from P1 to P2. There is a small intermission,
-         * before next player's move. This can be made to create
-         * a strategy or take a breather.
-         */
-        StartCoroutine(Intermission());
+        StartCoroutine(ChangeTurnIE());
     }
 
-    void MoveCamToInter ( ) {
-        Vector3 currentPos = gameCamera.transform.position;
-        Vector3 endPos = InterPos;
-
-    }
-
-    void MoveCamToPlayerSpace ( ) {
-        
-    }
-
-    IEnumerator Intermission ( ) {
+    // IEnumerators
+    IEnumerator ChangeTurnIE ( ) {
+        // If current turn is Player1.
         if (TurnState == "Player1") {
-            TurnState = "Intermission";
-            moveToInter = true;
+            // Change to intermission and show full play area.
+            MoveCamera(InterPos, interCamSize);
             gameState = GameState.Intermission;
-            gameStateTxt.text = TurnState;
-            yield return new WaitForSeconds(IntermissionLength);
-            moveToP2 = true;
-            gameState = GameState.Player2Turn;
-            TurnState = "Player2";
-            gameStateTxt.text = TurnState + " turn!";
+            yield return new WaitForSeconds(intermissionLength);
+
+            // Perform camera animation.
+            MoveCamera(player2Pos, defCamSize);
+            gameState = GameState.Player2;
+            StopCoroutine(ChangeTurnIE());
         }
-        else if (TurnState == "Player2") {
-            TurnState = "Intermission";
-            moveToInter = true;
+
+        // If current turn is Player2.
+        if (TurnState == "Player2") {
+            // Change to intermission and show full play area.
+            MoveCamera(InterPos, interCamSize);
             gameState = GameState.Intermission;
-            gameStateTxt.text = TurnState;
-            yield return new WaitForSeconds(IntermissionLength);
-            moveToP1 = true;
-            gameState = GameState.Player1Turn;
-            TurnState = "Player1";
-            gameStateTxt.text = TurnState + " turn!";
+            yield return new WaitForSeconds(intermissionLength);
+
+            // Perform camera animation.
+            MoveCamera(player1Pos, defCamSize);
+            gameState = GameState.Player1;
+            StopCoroutine(ChangeTurnIE());
         }
     }
 }

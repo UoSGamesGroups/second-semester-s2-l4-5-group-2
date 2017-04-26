@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RotateInPlace : MonoBehaviour {
 
+    public Vector3 rotationSpeed;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +13,6 @@ public class RotateInPlace : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(0, 0, 35 * Time.deltaTime);
+        transform.Rotate(rotationSpeed * Time.deltaTime);
     }
 }

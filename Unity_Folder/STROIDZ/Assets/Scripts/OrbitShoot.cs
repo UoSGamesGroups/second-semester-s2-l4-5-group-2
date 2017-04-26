@@ -1,9 +1,34 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class OrbitShoot : MonoBehaviour {
+
+    /// <summary>
+    /// OrbitShoot Script.
+    /// Created by: Tom Gibbs.
+    /// Modified by: Daniel Pokladek.
+    /// 
+    /// This script handles when the player drags on the asteroid,
+    /// it gets the initial position and adds relative force to the asteroid.
+    /// Once player lets go of the button, it will shoot the asteroid in the space,
+    /// where they have pointed.
+    /// 
+    /// </summary>
+
+    // Hide the variables in inspector,
+    // as they are assigned by the asteroid manager.
+    // ----
+
+    [HideInInspector]
     public float shootForceMultiplier;
+    [HideInInspector]
+    public AsteroidManager asteroidManager;
+    [HideInInspector]
+    public GameObject RadVis;                   // Set up using the AsteroidManager.
+    [HideInInspector]
+    public GameObject RadVisInstance;
+    [HideInInspector]
+    public Camera gameCamera;
+
     private Vector3 orbitPos;
     private Vector3 clickPos;
     private Vector3 initialPos;
@@ -11,138 +36,80 @@ public class OrbitShoot : MonoBehaviour {
     private Vector3 fingPos;
     private Vector3 radPos;
 
-    public GameObject RadVis;
-    public GameObject RadVisInstance;
-
-    public AsteroidManager asteroidManager;
-
     private float startSize;
     private float endSize;
     private float defSize;
 
     private float time = 0;
 
-    public bool moveToAsteroid = false;
-    public bool moveToGameSpace = false;
+    private bool moveToAsteroid = false;
 
     void Start ( ) {
         asteroidManager = gameObject.GetComponent<AsteroidManager>();
+
+        gameCamera = Camera.main;
     }
 
     void FixedUpdate ( ) {
-        #region Player1ShootingCamera
-        if (GameManager.gameManager.TurnState == "Player1") {
-            if (moveToAsteroid && !moveToGameSpace) {
-                // Zoom camera in towards the asteroid.
-                startSize = Camera.main.orthographicSize;
-                endSize = GameManager.gameManager.shootCamSize;
-
-                time += Time.deltaTime;
-                GameManager.gameManager.gameCamera.orthographicSize = Mathf.SmoothStep(startSize, endSize, time);
-
-                // Move camera towards the asteroid.
-                Vector3 startPos = Camera.main.transform.position;
-                Vector3 endPos = gameObject.transform.position;
-                GameManager.gameManager.gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
-            }
-        }
-        #endregion
-
-        #region Player2ShootingCamera
-        if (GameManager.gameManager.TurnState == "Player2") {
-            if (moveToAsteroid && !moveToGameSpace) {
-                // Zoom camera in towards teh asteroid.
-                startSize = Camera.main.orthographicSize;
-                endSize = GameManager.gameManager.shootCamSize;
-
-                time += Time.deltaTime;
-                GameManager.gameManager.gameCamera.orthographicSize = Mathf.SmoothStep(startSize, endSize, time);
-
-                // Move camera towards teh asteroid.
-                Vector3 startPos = Camera.main.transform.position;
-                Vector3 endPos = gameObject.transform.position;
-                GameManager.gameManager.gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
-            }
-        }
-        #endregion
-
-        #region MoveBackToGameSpace
-        if (moveToGameSpace && !moveToAsteroid) {
-            // Zoom camera out back to GameSpace
-            startSize = Camera.main.orthographicSize;
-            endSize = GameManager.gameManager.defCamSize;
+        #region ZoomToShoot
+        if (moveToAsteroid) {
+            // Zoom camera towards the selected asteroid.
+            startSize = gameCamera.orthographicSize;
+            endSize = GameManager.gameManager.shootCamSize;
 
             time += Time.deltaTime;
-            GameManager.gameManager.gameCamera.orthographicSize = Mathf.SmoothStep(startSize, endSize, time);
+            gameCamera.orthographicSize = Mathf.SmoothStep(startSize, endSize, time);
 
-            // Move camera back to the GameSpace
-            Vector3 startPos = Camera.main.transform.position;
-            Vector3 endPos;
-
-            if (GameManager.gameManager.TurnState == "Player1")
-                endPos = GameManager.gameManager.player1Pos;
-            else
-                endPos = GameManager.gameManager.player2Pos;
-
-            GameManager.gameManager.gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
-
-            if (GameManager.gameManager.gameCamera.transform.position == endPos) {
-                moveToGameSpace = false;
-            }
+            // Move camera to center of asteroid.
+            Vector3 startPos = gameCamera.transform.position;
+            Vector3 endPos = gameObject.transform.position;
+            gameCamera.transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x, endPos.y, -10), time);
         }
         #endregion
     }
 
-    //get the initial positon of the holder before the drag starts
-    void OnMouseDown ( )
-    {
+    void OnMouseDown ( ) {
+        // Reset time before animation, to make sure it works.
         time = 0;
-        moveToAsteroid = true;
-        moveToGameSpace = false;
 
-        if (asteroidManager.Owner == GameManager.gameManager.TurnState)
-        {
+        // If the owner of asteroid is the current player, perform the code below.
+        // This code gets the initial position before the user starts dragging.
+        if (asteroidManager.asteroidOwner == GameManager.gameManager.TurnState) {
+            moveToAsteroid = true;
             orbitPos = transform.position;
+
+            fingPos = Input.mousePosition;
+            fingPos.z = 11;
+
+            radPos = gameCamera.ScreenToWorldPoint(fingPos);
+            RadVisInstance = Instantiate(RadVis, radPos, Quaternion.identity);
         }
-
-        Vector3 fingPos = Input.mousePosition;
-        fingPos.z = 11;
-        Vector3 radPos = Camera.main.ScreenToWorldPoint(fingPos);
-        RadVisInstance = Instantiate(RadVis, radPos, Quaternion.identity);
-
     }
 
-    //move the holder according to the drag
     void OnMouseDrag ( ) {
-        if (asteroidManager.Owner == GameManager.gameManager.TurnState) {
-            asteroidManager.targetAsteroid = null;
-            asteroidManager.UpdatePlanetaryGravity();
+        // This code moves the asteroid according on where the player is aiming.
+        // It also adds force to the asteroid, relative to how far player drags.
+        if (asteroidManager.asteroidOwner == GameManager.gameManager.TurnState) {
+            asteroidManager.UpdatePlanetaryGravity(asteroidManager.orbitRadius, asteroidManager.orbitSpeed, null);
 
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
+            transform.position = gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
 
-            clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var allowedPos = clickPos - orbitPos;
+            Vector3 allowedPos = clickPos - orbitPos;
+            clickPos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
             allowedPos = Vector3.ClampMagnitude(allowedPos, 3);
             transform.position = orbitPos + allowedPos;
-
-            
         }
     }
 
-    //the current position of the holder and its initial position 
-    void OnMouseUp ( )
-    {
-        Destroy(RadVisInstance);
-
+    void OnMouseUp ( ) {
         moveToAsteroid = false;
         time = 0;
-        moveToGameSpace = true;
 
-        if (asteroidManager.Owner == GameManager.gameManager.TurnState) {
-            asteroidManager.isInOrbit = false;
+        Destroy(RadVisInstance);
+
+        if (asteroidManager.asteroidOwner == GameManager.gameManager.TurnState) {
             GetComponent<Rigidbody2D>().AddForce(( orbitPos - transform.position ) * Vector3.Distance(transform.position, orbitPos) * shootForceMultiplier);
-
+            GameManager.gameManager.ChangeTurn();
         }
-  
     }
 }
