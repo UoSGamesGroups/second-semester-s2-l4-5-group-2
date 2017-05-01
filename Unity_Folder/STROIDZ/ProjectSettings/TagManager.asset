@@ -8,6 +8,7 @@ TagManager:
   - planet
   - RadVis
   - galaxy
+  - GALAXY
   layers:
   - Default
   - TransparentFX

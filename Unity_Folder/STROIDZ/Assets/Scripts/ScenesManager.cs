@@ -19,8 +19,6 @@ public class ScenesManager : MonoBehaviour
     public Button quitToMainMenu;
 
     public Canvas audioMenu;
-    public Button backgroundMusic;
-    public Button soundEffects;
     public Button Done;
 
     public Canvas inGameQuitMenu;
@@ -35,36 +33,75 @@ public class ScenesManager : MonoBehaviour
     public Button eYes;
     public Button eNo;
 
+    public Canvas nextRoundMenu;
+    public Button rematch;
+    public Button nextroundtoMainMenu;
+
+    public Canvas CongratulationsToPlayer1;
+    public Canvas CongratulationsToPlayer2;
+
 
     void Start()
     {
-        exitMenu = exitMenu.GetComponent<Canvas>();
-        Play = Play.GetComponent<Button>();
-        Exit = Exit.GetComponent<Button>();
+        if (exitMenu)
+            exitMenu = exitMenu.GetComponent<Canvas>();
 
-        pauseMenu = pauseMenu.GetComponent<Canvas>();
-        Resume = Resume.GetComponent<Button>();
-        Restart = Restart.GetComponent<Button>();
-        adjustAudio = adjustAudio.GetComponent<Button>();
-        quitToMainMenu = quitToMainMenu.GetComponent<Button>();
+        if(Play)
+            Play = Play.GetComponent<Button>();
 
-        audioMenu = audioMenu.GetComponent<Canvas>();
-        backgroundMusic = backgroundMusic.GetComponent<Button>();
-        soundEffects = soundEffects.GetComponent<Button>();
-        Done = Done.GetComponent<Button>();
+        if(Exit)
+            Exit = Exit.GetComponent<Button>();
+
+        if(pauseMenu)
+            pauseMenu = pauseMenu.GetComponent<Canvas>();
+
+        if (Resume)
+            Resume = Resume.GetComponent<Button>();
+
+        if(Restart)
+            Restart = Restart.GetComponent<Button>();
+
+        if(adjustAudio)
+            adjustAudio = adjustAudio.GetComponent<Button>();
+
+        if(quitToMainMenu)
+            quitToMainMenu = quitToMainMenu.GetComponent<Button>();
+
+        if(audioMenu)
+            audioMenu = audioMenu.GetComponent<Canvas>();
+
+        if(Done)
+            Done = Done.GetComponent<Button>();
+
+        if(nextRoundMenu)
+            nextRoundMenu = nextRoundMenu.GetComponent<Canvas>();
+
+        if(rematch)
+            rematch = rematch.GetComponent<Button>();
+
+        if(nextRoundMenu)
+            nextroundtoMainMenu = nextroundtoMainMenu.GetComponent<Button>();
+
+        if(CongratulationsToPlayer1)
+            CongratulationsToPlayer1 = CongratulationsToPlayer1.GetComponent<Canvas>();
+
+        if(CongratulationsToPlayer2)
+            CongratulationsToPlayer2 = CongratulationsToPlayer2.GetComponent<Canvas>();
 
 
-        exitMenu.enabled = false; // Hides the Exit Menu pop up at game start. 
-        pauseMenu.enabled = false; // Hides the Pause Menu pop up at game start. 
+        exitMenu.enabled = false; // Hides the Exit Menu pop up at game start.
+        pauseMenu.enabled = false; // Hides the Pause Menu pop up at game start.
         paused = false;
         audioMenu.enabled = false; // Hides the Audio Menu pop up at game start.
         inGameQuitMenu.enabled = false; //Hides the in game quit menu pop up at game start. 
+        nextRoundMenu.enabled = false;
         pauseGame.enabled = true; //Shows the pause button in game at level start.
+        CongratulationsToPlayer1.enabled = false;
+        CongratulationsToPlayer2.enabled = false;
     }
 
     public void ExitMenu()
     {
-        pauseMenu.enabled = false;
         exitMenu.enabled = true; // Shows the Exit Menu pop up when the Exit button is pressed.
         Play.enabled = false;
         Exit.enabled = false;
@@ -128,18 +165,14 @@ public class ScenesManager : MonoBehaviour
     {
         pauseMenu.enabled = false;
         audioMenu.enabled = true;
-        backgroundMusic.enabled = true;
-        soundEffects.enabled = true;
         Done.enabled = true;
     }
 
     public void HideAudioMenuPopUp()
     {
-        PauseMenu();
         audioMenu.enabled = false;
-        backgroundMusic.enabled = false;
-        soundEffects.enabled = false;
         Done.enabled = false;
+        PauseMenu();
     }
 
     public void InGameQuitMenu()

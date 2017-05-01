@@ -1,5 +1,4 @@
 sceneSetups:
-- path: C:/Users/tomgi/Documents/UOS - (BSc) Computer Games Programming/Classes/5.
-    Programming/TomGibbs-ITP-Assignment2/Unity/ITP-Assignment2-Sugar/Assets/Scenes/MainMenu.unity
+- path: Assets/Scenes/NewAlpha.unity
   isLoaded: 1
   isActive: 1

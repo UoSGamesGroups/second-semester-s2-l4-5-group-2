@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     [Header("Turn Settings")]
     public GameState gameState = GameState.Player1; // Setting the GameState to Player1 turn, later preferably change to menu so game starts with menu.
     public Text gameStateText;
-    public float intermissionLength = 5;
+    public float intermissionLength = 6;
     public string TurnState = "Player1";
 
     [Header("Camera Settings")]
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour {
             // Intermission state.
             case GameState.Intermission:
                 TurnState = "Intermission";
-                gameStateText.text = "5 Sec Intermission";
+                gameStateText.text = "6 Sec Intermission";
                 break;
 
             // Menu not yet implemented.

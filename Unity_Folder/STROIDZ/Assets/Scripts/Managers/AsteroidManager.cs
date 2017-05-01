@@ -121,6 +121,14 @@ public class AsteroidManager : MonoBehaviour {
     }
     #endregion
 
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "GALAXY")
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     #region IEnumerators
     IEnumerator DestroyAsteroid ( float _destroyDelay, GameObject _asteroidHit ) {
         Instantiate(impactFX, gameObject.transform.position, gameObject.transform.rotation);
