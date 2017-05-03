@@ -10,7 +10,7 @@ public class VolumeControl : MonoBehaviour
 
     private void Start()
     {
-        Volume.value = 0.5f;
+        Volume.value = 0.25f;
     }
 
     void Update()

@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Health : MonoBehaviour
 {
-    public int PlayerHealth;
+    public int PlayerHealth = 5;
 
     private SpriteRenderer sr;
     public Sprite Planet5;
@@ -15,19 +15,8 @@ public class Health : MonoBehaviour
     public Sprite Planet1;
     public Sprite Planet0;
 
-    public Canvas Congratulations;
-    public Canvas NextRound;
-
     void Start()
-    {
-        PlayerHealth = 5;
-
-        Congratulations = Congratulations.GetComponent<Canvas>();
-        NextRound = NextRound.GetComponent<Canvas>();
-
-        NextRound.enabled = false;
-        Congratulations.enabled = false;
-
+    {        
         sr = GetComponent<SpriteRenderer>();
     }
 
@@ -65,12 +54,10 @@ public class Health : MonoBehaviour
         if (Number == 0)
         {
             sr.sprite = Planet1;
-            Congratulations.enabled = true;
-            sr.sprite = Planet1;
-            PlayerDead();
         }
     }
-    
+
+    //Destroy asteroid, take health from player
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "ASTEROID")
@@ -79,19 +66,5 @@ public class Health : MonoBehaviour
             PlayerHealth = PlayerHealth - 1;
             UpdateHealth(PlayerHealth);
         }
-    }
-
-    void PlayerDead()
-    {
-        Congratulations.enabled = true;
-        StartCoroutine("GameFinished");
-    }
-
-    IEnumerator GameFinished()
-    {
-        yield return new WaitForSeconds(5f);
-        Time.timeScale = 0;
-        Congratulations.enabled = false;
-        NextRound.enabled = true;
     }
 }

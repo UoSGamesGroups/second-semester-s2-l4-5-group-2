@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerGalaxyManager : MonoBehaviour
-{
+public class PlayerGalaxyManager : MonoBehaviour {
 
     /// <summary>
     /// PlayerGalaxyManager.
@@ -24,39 +23,35 @@ public class PlayerGalaxyManager : MonoBehaviour
     public Sprite[] galaxySprites;
 
     public Canvas Congratulations;
-    public Canvas NextRound;
 
-    void Start()
-    {
+    void Start () {
         Congratulations = Congratulations.GetComponent<Canvas>();
-        NextRound = NextRound.GetComponent<Canvas>();
-        NextRound.enabled = false;
+
         Congratulations.enabled = false;
 
         sprRenderer = GetComponent<SpriteRenderer>();
-        UpdateHealth();
-    }
-
-    public void Damage(float _dmgAmnt)
-    {
+	}
+	
+	public void Damage (float _dmgAmnt) {
         galaxyHealth -= _dmgAmnt;
         UpdateHealth();
-    }
+	}
 
-    void UpdateHealth()
-    {
-        while (galaxyHealth == 5)
+    void UpdateHealth () {
+        if (galaxyHealth == 5)
             sprRenderer.sprite = galaxySprites[5];
-        while (galaxyHealth == 4)
+        if (galaxyHealth < 5 && galaxyHealth >= 4)
             sprRenderer.sprite = galaxySprites[4];
-        while (galaxyHealth == 3)
+        if (galaxyHealth < 4 && galaxyHealth >= 3)
             sprRenderer.sprite = galaxySprites[3];
-        while (galaxyHealth == 2)
+        if (galaxyHealth < 3 && galaxyHealth >= 2)
             sprRenderer.sprite = galaxySprites[2];
-        while (galaxyHealth == 1)
+        if (galaxyHealth < 2 && galaxyHealth >= 1)
             sprRenderer.sprite = galaxySprites[1];
-        while (galaxyHealth == 0)
+        if (galaxyHealth < 1)
+        {
+            Congratulations.enabled = true;
             sprRenderer.sprite = galaxySprites[0];
-        SceneManager.LoadScene(0);
+        }
     }
 }

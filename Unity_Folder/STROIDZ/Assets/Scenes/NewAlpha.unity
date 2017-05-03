@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1283,7 +1283,7 @@ Prefab:
     - target: {fileID: 250688163596903444, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
       propertyPath: m_ForceMagnitude
-      value: -9
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 58712070687592740, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
@@ -1480,7 +1480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1832,7 +1832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3427,7 +3427,7 @@ Prefab:
     - target: {fileID: 250688163596903444, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
       propertyPath: m_ForceMagnitude
-      value: -9
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 58712070687592740, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
@@ -3550,7 +3550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573ea55e2b2788b44aee19a08f80e97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: {x: 0, y: 0, z: -25}
+  rotationSpeed: {x: 0, y: 0, z: -15}
 --- !u!114 &866989047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3580,7 +3580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidHealth: 1
   orbitRadius: 9
-  orbitSpeed: 25
+  orbitSpeed: 15
   shootForce: 55
   damageAmount: 0.5
   targetAsteroid: {fileID: 509805427}
@@ -4569,7 +4569,7 @@ Prefab:
     - target: {fileID: 250688163596903444, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
       propertyPath: m_ForceMagnitude
-      value: -9
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 58712070687592740, guid: 56bb93b76205cd244a017f805e8a1564,
         type: 2}
@@ -5167,6 +5167,61 @@ Prefab:
       propertyPath: damageAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114094826125818282, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114388345369309224, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114575396963066664, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926705721297592, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114751525885326454, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114735859433248164, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114700422764957900, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114119228366237854, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114247750114411444, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114126196886362170, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114624654216608812, guid: a941e481b7325bc4a920663112d8a2dc,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114982920564413418, guid: a941e481b7325bc4a920663112d8a2dc, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a941e481b7325bc4a920663112d8a2dc, type: 2}
@@ -5221,7 +5276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.478}
+  m_Color: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 0.38431373}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6268,7 +6323,7 @@ MonoBehaviour:
   asteroidHealth: 1
   orbitRadius: 12
   orbitSpeed: 25
-  shootForce: 55
+  shootForce: 90
   damageAmount: 1
   targetAsteroid: {fileID: 1658915828}
   targetPlanet: {fileID: 1658915826}
@@ -7436,7 +7491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.384}
+  m_Color: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 0.38431373}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7602,7 +7657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidHealth: 1
   orbitRadius: 9
-  orbitSpeed: 25
+  orbitSpeed: 15
   shootForce: 55
   damageAmount: 0.5
   targetAsteroid: {fileID: 509805427}
@@ -7641,7 +7696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573ea55e2b2788b44aee19a08f80e97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: {x: 0, y: 0, z: -25}
+  rotationSpeed: {x: 0, y: 0, z: -15}
 --- !u!1 &1850663256
 GameObject:
   m_ObjectHideFlags: 0
@@ -7692,7 +7747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.478}
+  m_Color: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 0.38431373}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7863,7 +7918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8193,7 +8248,7 @@ Prefab:
         type: 2}
       propertyPath: Congratulations
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 143312891}
     - target: {fileID: 114570045701430048, guid: 9b12db19fddb915419ec715a30f64e06,
         type: 2}
       propertyPath: NextRound
@@ -8269,6 +8324,66 @@ Prefab:
       propertyPath: sprRenderer
       value: 
       objectReference: {fileID: 1259986158}
+    - target: {fileID: 114494328069251198, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114912998187257398, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114484792399424784, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114022367043430874, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114144053864862118, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114929692162057886, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114022152350000896, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114359442574657200, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114687250459248376, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114889977129901518, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114820906740518304, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114490554646443822, guid: 9b12db19fddb915419ec715a30f64e06,
+        type: 2}
+      propertyPath: shootForce
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b12db19fddb915419ec715a30f64e06, type: 2}
   m_IsPrefabParent: 0
@@ -8528,7 +8643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8721,7 +8836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573ea55e2b2788b44aee19a08f80e97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: {x: 0, y: 0, z: -25}
+  rotationSpeed: {x: 0, y: 0, z: -15}
 --- !u!114 &2083117068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8751,7 +8866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidHealth: 1
   orbitRadius: 9
-  orbitSpeed: 25
+  orbitSpeed: 15
   shootForce: 55
   damageAmount: 0.5
   targetAsteroid: {fileID: 509805427}

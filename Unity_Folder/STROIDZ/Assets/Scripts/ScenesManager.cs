@@ -89,27 +89,31 @@ public class ScenesManager : MonoBehaviour
             CongratulationsToPlayer2 = CongratulationsToPlayer2.GetComponent<Canvas>();
 
 
-        exitMenu.enabled = false; // Hides the Exit Menu pop up at game start.
-        pauseMenu.enabled = false; // Hides the Pause Menu pop up at game start.
-        paused = false;
-        audioMenu.enabled = false; // Hides the Audio Menu pop up at game start.
-        inGameQuitMenu.enabled = false; //Hides the in game quit menu pop up at game start. 
+        //Hides canvas at scene load. 
+        exitMenu.enabled = false; 
+        pauseMenu.enabled = false;
+        audioMenu.enabled = false;
+        inGameQuitMenu.enabled = false;
         nextRoundMenu.enabled = false;
-        pauseGame.enabled = true; //Shows the pause button in game at level start.
+        pauseGame.enabled = true;
         CongratulationsToPlayer1.enabled = false;
         CongratulationsToPlayer2.enabled = false;
+
+        pauseGame.enabled = true;
+
+        paused = false;
     }
 
     public void ExitMenu()
     {
-        exitMenu.enabled = true; // Shows the Exit Menu pop up when the Exit button is pressed.
+        exitMenu.enabled = true;
         Play.enabled = false;
         Exit.enabled = false;
     }
 
     public void HideExitPopUp()
     {
-        exitMenu.enabled = false; // Hides the Exit Menu pop up confirmation.
+        exitMenu.enabled = false;
         Play.enabled = true;
         Exit.enabled = true;
     }
@@ -125,6 +129,7 @@ public class ScenesManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    //Toggle whether game is in paused state (bool).
     public void PauseButton()
     {
         paused = !paused;
